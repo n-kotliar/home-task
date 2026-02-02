@@ -61,10 +61,14 @@ function resetForm() {
 function closeRateModal() {
   backdrop.classList.remove('is-open');
   document.removeEventListener('keydown', onEscCloseRate);
+
   if (typeof window.reopenExerciseModal === 'function') {
     window.reopenExerciseModal();
+    delete window.reopenExerciseModal;
+    delete window.lastExercise;
   }
 }
+
 
 function onEscCloseRate(event) {
   if (event.key === 'Escape') {

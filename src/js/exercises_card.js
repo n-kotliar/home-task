@@ -29,7 +29,13 @@ export default function handlerStartBtn(
   cardBackdrop.classList.add('card-is-open');
   document.body.classList.add('not-scrollable');
   document.addEventListener('keydown', onEscClose);
+
+  window.lastExercise = exercise;
+  window.reopenExerciseModal = () => {
+    handlerStartBtn(window.lastExercise);
+  };
 }
+
 
 function renderModal(data) {
   const favs = localStorageLogic.getFav(localStorageLogic.LS_FAV);
