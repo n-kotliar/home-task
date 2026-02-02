@@ -32,8 +32,11 @@ refs.exercises.addEventListener('click', loadExercises);
 refs.searchForm.addEventListener('submit', onSearch);
 refs.loadMoreBtn?.addEventListener('click', loadMore);
 function capitalize(str) {
-  return str[0].toUpperCase() + str.slice(1);
+  const clean = str.trim();
+  return clean[0].toUpperCase() + clean.slice(1);
 }
+
+
 
 async function fetchFilters(reset = true) {
   if (reset) {
