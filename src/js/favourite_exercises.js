@@ -44,50 +44,42 @@ function renderCards(cards) {
   return `
     <ul class="fav_card_list">
       ${cards
-        .map(({ name, _id, burnedCalories, bodyPart, target, time = 3 }) => {
-          let calories = `${burnedCalories} / ${time} min`;
-
-          return `
-            <li class="exercise-information" data-id-card="${_id}">
-              <div class="top-nav">
-                <div>
-                  <p class="tag">Workout</p>
-                  <button
-                    data-action="delete"
-                    data-id="${_id}"
-                    class="trash-btn">
-                    <svg width="16" height="16">
-                      <use href="/home-task/icons.svg#icon-trash"></use>
-                    </svg>
-                  </button>
-                </div>
-
-                <button
-                  data-action="start"
-                  data-id="${_id}"
-                  class="details-link">
-                  Start
-                  <svg width="16" height="16">
-                    <use href="/home-task/icons.svg#icon-arrow"></use>
+        .map(
+          ({ name, _id, burnedCalories, bodyPart, target, time = 3 }) => `
+          <li class="exercise-information" data-id-card="${_id}">
+            <div class="top-nav">
+              <div>
+                <p class="tag">Workout</p>
+                <button data-action="delete" data-id="${_id}" class="trash-btn">
+                  <svg width="16" height="16" class="trash-icon">
+                    <use href="/home-task/icons.svg#icon-trash"></use>
                   </svg>
                 </button>
               </div>
 
-              <div class="exercise-header">
-                <svg width="24" height="24">
-                  <use href="/home-task/icons.svg#icon-run"></use>
+              <button data-action="start" data-id="${_id}" class="details-link">
+                Start
+                <svg width="16" height="16" class="arrow-icon">
+                  <use href="/home-task/icons.svg#icon-arrow"></use>
                 </svg>
-                <h2 class="exercise-name">${name}</h2>
-              </div>
+              </button>
+            </div>
 
-              <ul class="exercise-details">
-                <li><span>Burned calories:</span> ${calories}</li>
-                <li><span>Body part:</span> ${bodyPart}</li>
-                <li><span>Target:</span> ${target}</li>
-              </ul>
-            </li>
-          `;
-        })
+            <div class="exercise-header">
+              <svg width="24" height="24">
+                <use href="/home-task/icons.svg#icon-run"></use>
+              </svg>
+              <h2 class="exercise-name">${name}</h2>
+            </div>
+
+            <ul class="exercise-details">
+              <li><span>Burned calories:</span> ${burnedCalories} / ${time} min</li>
+              <li><span>Body part:</span> ${bodyPart}</li>
+              <li><span>Target:</span> ${target}</li>
+            </ul>
+          </li>
+        `
+        )
         .join('')}
     </ul>
   `;
@@ -100,9 +92,7 @@ function renderPagination(totalPages) {
 
   const btn = p => `
     <li>
-      <button
-        class="pagination-btn ${p === page ? 'active' : ''}"
-        data-page="${p}">
+      <button class="pagination-btn ${p === page ? 'active' : ''}" data-page="${p}">
         ${p}
       </button>
     </li>
@@ -133,7 +123,7 @@ function renderPagination(totalPages) {
 export function checkStorage() {
   if (!refs.root) return;
 
-  const favs = uniqueIdFilter(getFav(LS_FAV) || []);
+  const favs = uniqueIdFilter(getFav(LS_FAV));
 
   if (!favs.length) {
     renderNoCards();
@@ -161,17 +151,14 @@ refs.root?.addEventListener('click', e => {
   }
 
   if (start) {
-    const favs = getFav(LS_FAV) || [];
+    const favs = getFav(LS_FAV);
     const exercise = favs.find(el => el._id === start.dataset.id);
     if (exercise) handlerStartBtn(exercise, true, true);
   }
 
   if (pageBtn) {
-    const newPage = Number(pageBtn.dataset.page);
-    if (newPage !== page) {
-      page = newPage;
-      checkStorage();
-    }
+    page = Number(pageBtn.dataset.page);
+    checkStorage();
   }
 });
 
