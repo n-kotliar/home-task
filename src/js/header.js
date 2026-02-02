@@ -5,8 +5,8 @@ const mobileMenu = document.querySelector('.mobile-menu');
 const navLinkFav = document.querySelector('.header-nav-link-fav');
 const navLinkHome = document.querySelector('.header-nav-link-home');
 
-const script = document.currentScript;
-const page = script.dataset.page;
+const page = window.PAGE;
+
 
 if (page === 'fav') {
   navLinkFav.classList.add('active');
