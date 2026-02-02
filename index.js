@@ -1,13 +1,13 @@
-import{d as B,h as C}from"./assets/exercises_card-DYF2-EXV.js";const n={filters:document.querySelector(".filters"),navButtons:document.querySelector(".nav-buttons"),musclesBtn:document.querySelector(".muscles-btn"),exercisesTitle:document.querySelector(".exercises-title"),searchForm:document.querySelector(".search-form"),loadMoreBtn:document.querySelector(".load-more-btn"),quoteContainer:document.querySelector(".quote"),pagination:document.querySelector(".pagination"),exercises:document.querySelector(".exercises-div")};let F=window.innerWidth<768?9:12,H=window.innerWidth<768?8:10,a=1,u="Muscles",w="Muscles",S="",y="",h="",m=[];B(n.quoteContainer);g();n.musclesBtn.classList.add("active-btn");n.filters.addEventListener("click",I);n.exercises.addEventListener("click",A);n.searchForm.addEventListener("input",O);var L;(L=n.loadMoreBtn)==null||L.addEventListener("click",loadMore);async function g(e=!0){e&&(a=1,n.exercises.innerHTML="");let t=`https://your-energy.b.goit.study/api/filters?filter=${u}&page=${a}&limit=${F}`;w.trim()&&(t+=`&name=${w}`);const r=await(await fetch(t)).json();if(!r.results.length){$();return}j(r.results),E(r.totalPages)}function j(e){const t=`
+import{d as q,h as B}from"./assets/header-CVHSSP_G.js";import{n as u}from"./assets/vendor-BP42vfHS.js";const i={filters:document.querySelector(".filters"),navButtons:document.querySelector(".nav-buttons"),musclesBtn:document.querySelector(".muscles-btn"),exercisesTitle:document.querySelector(".exercises-title"),searchForm:document.querySelector(".search-form"),loadMoreBtn:document.querySelector(".load-more-btn"),quoteContainer:document.querySelector(".quote"),pagination:document.querySelector(".pagination"),exercises:document.querySelector(".exercises-div")};let C=window.innerWidth<768?9:12,F=window.innerWidth<768?8:10,r=1,d="Muscles",b="Muscles",L="",y="",g="",p=[];q(i.quoteContainer);x();i.musclesBtn.classList.add("active-btn");i.filters.addEventListener("click",N);i.exercises.addEventListener("click",j);i.searchForm.addEventListener("input",I);var S;(S=i.loadMoreBtn)==null||S.addEventListener("click",loadMore);function f(e){return e[0].toUpperCase()+e.slice(1)}async function x(e=!0){e&&(r=1,i.exercises.innerHTML="");let t=`https://your-energy.b.goit.study/api/filters?filter=${d}&page=${r}&limit=${C}`;b.trim()&&(t+=`&name=${b}`);const a=await(await fetch(t)).json();if(!a.results.length){E();return}H(a.results),$(a.totalPages)}function H(e){const t=`
     <ul class="exercises">
-      ${e.map(({name:s,filter:r,imgURL:i})=>`
+      ${e.map(({name:s,filter:a,imgURL:n})=>`
             <li class="exercise">
               <img
-                src="${i}?w=290&h=242"
+                src="${n}?w=290&h=242"
                 srcset="
-                  ${i}?w=335&h=225 335w,
-                  ${i}?w=225&h=225 225w,
-                  ${i}?w=290&h=242 290w
+                  ${n}?w=335&h=225 335w,
+                  ${n}?w=225&h=225 225w,
+                  ${n}?w=290&h=242 290w
                 "
                 sizes="(max-width: 767px) 335px,
                        (min-width: 768px) and (max-width: 1439px) 225px,
@@ -21,31 +21,31 @@ import{d as B,h as C}from"./assets/exercises_card-DYF2-EXV.js";const n={filters:
                 <h2 class="exercise-subtitle">
                   ${s[0].toUpperCase()+s.slice(1)}
                 </h2>
-                <p class="exercise-filter">${r}</p>
+                <p class="exercise-filter">${a}</p>
               </div>
             </li>
           `).join("")}
     </ul>
     <ul class="nav-buttons pagination" id="pagination-container"></ul>
-  `;n.exercises.insertAdjacentHTML("beforeend",t)}function I(e){var t;e.target.tagName==="BUTTON"&&((t=document.querySelector(".active-btn"))==null||t.classList.remove("active-btn"),e.target.classList.add("active-btn"),e.target.classList.contains("muscles-btn")?u="Muscles":e.target.classList.contains("bodyparts-btn")?u="Body parts":e.target.classList.contains("equipment-btn")&&(u="Equipment"),n.exercisesTitle.textContent="Exercises",n.searchForm.style.display="none",g(!0))}async function A(e){const t=e.target.closest(".exercise");if(!t)return;const s=t.querySelector(".exercise-filter"),r=t.querySelector(".exercise-subtitle");!s||!r||(y=s.textContent,h=r.textContent.toLowerCase(),n.exercisesTitle.innerHTML=`
+  `;i.exercises.insertAdjacentHTML("beforeend",t)}function N(e){var t;e.target.tagName==="BUTTON"&&((t=document.querySelector(".active-btn"))==null||t.classList.remove("active-btn"),e.target.classList.add("active-btn"),e.target.classList.contains("muscles-btn")?d="Muscles":e.target.classList.contains("bodyparts-btn")?d="Body parts":e.target.classList.contains("equipment-btn")&&(d="Equipment"),i.exercisesTitle.textContent="Exercises",i.searchForm.style.display="none",x(!0))}async function j(e){const t=e.target.closest(".exercise");if(!t)return;const s=t.querySelector(".exercise-filter"),a=t.querySelector(".exercise-subtitle");!s||!a||(y=s.textContent,g=a.textContent.toLowerCase(),i.exercisesTitle.innerHTML=`
     <ul class="exercises-title">
-      Exercises / <span>${d(h)}</span>
+      Exercises / <span>${f(g)}</span>
     </ul>
-  `,n.searchForm.style.display="block",a=1,n.exercises.innerHTML="",await v())}async function v(e=!0){e&&(m=[]);let t=y.toLowerCase();t==="body parts"&&(t="bodypart");const s=`
+  `,i.searchForm.style.display="block",r=1,i.exercises.innerHTML="",await v())}async function v(e=!0){e&&(p=[]);let t=y.toLowerCase();t==="body parts"&&(t="bodypart");const s=`
     https://your-energy.b.goit.study/api/exercises?
-    ${t}=${h}
-    &keyword=${S}
-    &page=${a}
-    &limit=${H}
-  `.replace(/\s+/g,""),i=await(await fetch(s)).json();if(!i.results.length){$();return}m=i.results,N(i.results),E(i.totalPages)}async function N(e){n.exercises.innerHTML="",m=e;const t=`
+    ${t}=${g}
+    &keyword=${L}
+    &page=${r}
+    &limit=${F}
+  `.replace(/\s+/g,""),n=await(await fetch(s)).json();if(!n.results.length){E();return}p=n.results,A(n.results),$(n.totalPages)}async function A(e){i.exercises.innerHTML="",p=e;const t=`
     <ul class="exercises-cards">
-      ${e.map(({name:s,_id:r,rating:i,burnedCalories:l,bodyPart:c,target:T,time:k})=>{let q=`${l} / ${k} min`;return i%1===0&&(i+=".0"),i=parseFloat(i).toFixed(1),`
-              <li class="exercise-information" data-id-card="${r}">
+      ${e.map(({name:s,_id:a,rating:n,burnedCalories:l,bodyPart:c,target:T,time:M})=>{let k=`${l} / ${M} min`;return n%1===0&&(n+=".0"),n=parseFloat(n).toFixed(1),`
+              <li class="exercise-information" data-id-card="${a}">
                 <div class="top-nav">
                   <div>
                     <p class="tag">Workout</p>
                     <span class="rating">
-                      ${i}
+                      ${n}
                       <svg class="star-icon" width="14" height="14">
                         <use href="/home-task/icons.svg#icon-star"></use>
                       </svg>
@@ -54,7 +54,7 @@ import{d as B,h as C}from"./assets/exercises_card-DYF2-EXV.js";const n={filters:
                   <button
                     name="start"
                     data-action="start"
-                    data-id="${r}"
+                    data-id="${a}"
                     class="details-link">
                     Start
                     <svg class="arrow-icon" width="16" height="16">
@@ -68,39 +68,39 @@ import{d as B,h as C}from"./assets/exercises_card-DYF2-EXV.js";const n={filters:
                     <use href="/home-task/icons.svg#icon-run"></use>
                   </svg>
                   <h2 class="exercise-name">
-                    ${d(s)}
+                    ${f(s)}
                   </h2>
                 </div>
 
                 <ul class="exercise-details">
                   <li>
                     <span>Burned calories:</span>
-                    ${q}
+                    ${k}
                   </li>
                   <li>
                     <span>Body part:</span>
-                    ${d(c)}
+                    ${f(c)}
                   </li>
                   <li>
                     <span>Target:</span>
-                    ${d(T)}
+                    ${f(T)}
                   </li>
                 </ul>
               </li>
             `}).join("")}
     </ul>
     <ul class="nav-buttons pagination" id="pagination-container"></ul>
-  `;n.exercises.insertAdjacentHTML("beforeend",t)}function O(e){S=e.target.value.trim().toLowerCase(),a=1,n.exercises.innerHTML="",v(!0)}function E(e){const t=document.querySelector("#pagination-container");if(!t)return;if(e<=1){t.innerHTML="";return}let s="";const r=c=>`
+  `;i.exercises.insertAdjacentHTML("beforeend",t)}function I(e){L=e.target.value.trim().toLowerCase(),r=1,i.exercises.innerHTML="",v(!0)}function $(e){const t=document.querySelector("#pagination-container");if(!t)return;if(e<=1){t.innerHTML="";return}let s="";const a=c=>`
     <li>
       <button
-        class="pagination-btn ${c===a?"active":""}"
+        class="pagination-btn ${c===r?"active":""}"
         data-page="${c}">
         ${c}
       </button>
     </li>
-  `;let i=Math.max(1,a-1),l=Math.min(e,a+1);a===1&&(l=Math.min(e,3)),a===e&&(i=Math.max(1,e-2)),i>1&&(s+=r(1),i>2&&e>4&&(s+='<li class="dots">...</li>'));for(let c=i;c<=l;c++)s+=r(c);l<e&&(l<e-1&&e>4&&(s+='<li class="dots">...</li>'),s+=r(e)),t.innerHTML=s}n.exercises.addEventListener("click",e=>{const t=e.target.closest(".pagination-btn");if(!t)return;const s=Number(t.dataset.page);s!==a&&(a=s,n.exercises.innerHTML="",y?v(!1):g(!1))});n.exercises.addEventListener("click",e=>{const t=e.target.closest('[data-action="start"]');if(!t)return;const s=m.find(r=>r._id===t.dataset.id);C(s)});function $(){var e;n.exercises.innerHTML=`
+  `;let n=Math.max(1,r-1),l=Math.min(e,r+1);r===1&&(l=Math.min(e,3)),r===e&&(n=Math.max(1,e-2)),n>1&&(s+=a(1),n>2&&e>4&&(s+='<li class="dots">...</li>'));for(let c=n;c<=l;c++)s+=a(c);l<e&&(l<e-1&&e>4&&(s+='<li class="dots">...</li>'),s+=a(e)),t.innerHTML=s}i.exercises.addEventListener("click",e=>{const t=e.target.closest(".pagination-btn");if(!t)return;const s=Number(t.dataset.page);s!==r&&(r=s,i.exercises.innerHTML="",y?v(!1):x(!1))});i.exercises.addEventListener("click",e=>{const t=e.target.closest('[data-action="start"]');if(!t)return;const s=p.find(a=>a._id===t.dataset.id);B(s)});function E(){var e;i.exercises.innerHTML=`
     <p class="no-results-paragraph">
       Unfortunately, <span>no results</span> were found.
     </p>
-  `,(e=n.loadMoreBtn)==null||e.style.setProperty("display","none"),n.pagination&&(n.pagination.innerHTML="")}function d(e){return e[0].toUpperCase()+e.slice(1)}async function W(e){const t=await fetch("https://your-energy.b.goit.study/api/subscription",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e})});if(t.status===409)throw new Error("EMAIL_EXISTS");if(!t.ok)throw new Error("REQUEST_FAILED");return await t.json()}const o=document.querySelector("input[name=email]"),p=document.querySelector(".footer-send-button"),x="feedback-form-state";function f(e){return/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(e)}function z(){localStorage.setItem(x,JSON.stringify({email:o.value}))}function _(){const e=localStorage.getItem(x);if(!e)return;const{email:t}=JSON.parse(e);o.value=t||"",p.disabled=!f(o.value)}_();o.addEventListener("input",()=>{z(),p.disabled=!f(o.value)});o.addEventListener("change",()=>{f(o.value)||alert("Please enter a valid email address")});p.addEventListener("click",async e=>{if(e.preventDefault(),!!f(o.value))try{await W(o.value),alert("Success! Welcome to energy.flow world!"),o.value="",p.disabled=!0,localStorage.removeItem(x)}catch(t){t.message==="EMAIL_EXISTS"?alert("Email already exists"):alert("Something went wrong! Please try again later")}});const J=document.querySelector(".open-mobile-menu-btn"),Q=document.querySelector(".close-mobile-menu-btn"),b=document.querySelector(".mobile-menu-wrapper"),R=document.querySelector(".mobile-menu");J.addEventListener("click",()=>{b.classList.add("is-open"),document.body.classList.add("not-scrollable")});Q.addEventListener("click",()=>{M()});b.addEventListener("click",()=>{M()});R.addEventListener("click",e=>{e.stopPropagation()});function M(){b.classList.remove("is-open"),document.body.classList.remove("not-scrollable")}
+  `,(e=i.loadMoreBtn)==null||e.style.setProperty("display","none"),i.pagination&&(i.pagination.innerHTML="")}async function _(e){const t=await fetch("https://your-energy.b.goit.study/api/subscription",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e})});if(t.status===409)throw new Error("EMAIL_EXISTS");if(!t.ok)throw new Error("REQUEST_FAILED");return await t.json()}const o=document.querySelector("input[name=email]"),m=document.querySelector(".footer-send-button"),w="feedback-form-state";function h(e){return/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(e)}function O(){localStorage.setItem(w,JSON.stringify({email:o.value}))}function W(){const e=localStorage.getItem(w);if(!e)return;const{email:t}=JSON.parse(e);o.value=t||"",m.disabled=!h(o.value)}W();o.addEventListener("input",()=>{O(),m.disabled=!h(o.value)});o.addEventListener("change",()=>{h(o.value)||u.Notify.failure("Please enter a valid email address")});m.addEventListener("click",async e=>{if(e.preventDefault(),!h(o.value)){u.Notify.failure("Please enter a valid email address");return}try{await _(o.value),u.Notify.success("Success! Welcome to energy.flow world!"),o.value="",m.disabled=!0,localStorage.removeItem(w)}catch(t){t.message==="EMAIL_EXISTS"?u.Notify.warning("This email is already subscribed"):u.Notify.failure("Something went wrong! Please try again later")}});
 //# sourceMappingURL=index.js.map
