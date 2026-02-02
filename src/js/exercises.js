@@ -117,6 +117,7 @@ function pressFilterBtn(event) {
   fetchFilters(true);
 }
 
+
 async function loadExercises(event) {
   const card = event.target.closest('.exercise');
   if (!card) return;

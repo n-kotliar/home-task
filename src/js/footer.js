@@ -1,3 +1,5 @@
+import { Notify } from 'notiflix';
+
 export async function postSubscriptions(email) {
   const response = await fetch(
     'https://your-energy.b.goit.study/api/subscription',
@@ -45,6 +47,7 @@ function loadFromLocalStorage() {
 
 loadFromLocalStorage();
 
+
 email.addEventListener('input', () => {
   saveToLocalStorage();
   submitBtnFooter.disabled = !isValidEmail(email.value);
@@ -52,28 +55,31 @@ email.addEventListener('input', () => {
 
 email.addEventListener('change', () => {
   if (!isValidEmail(email.value)) {
-    alert('Please enter a valid email address');
+    Notify.failure('Please enter a valid email address');
   }
 });
 
 submitBtnFooter.addEventListener('click', async e => {
   e.preventDefault();
 
-  if (!isValidEmail(email.value)) return;
+  if (!isValidEmail(email.value)) {
+    Notify.failure('Please enter a valid email address');
+    return;
+  }
 
   try {
     await postSubscriptions(email.value);
 
-    alert('Success! Welcome to energy.flow world!');
+    Notify.success('Success! Welcome to energy.flow world!');
 
     email.value = '';
     submitBtnFooter.disabled = true;
     localStorage.removeItem(STORAGE_KEY);
   } catch (error) {
     if (error.message === 'EMAIL_EXISTS') {
-      alert('Email already exists');
+      Notify.warning('This email is already subscribed');
     } else {
-      alert('Something went wrong! Please try again later');
+      Notify.failure('Something went wrong! Please try again later');
     }
   }
 });
