@@ -31,6 +31,9 @@ refs.filters.addEventListener('click', pressFilterBtn);
 refs.exercises.addEventListener('click', loadExercises);
 refs.searchForm.addEventListener('input', onLiveSearch);
 refs.loadMoreBtn?.addEventListener('click', loadMore);
+function capitalize(str) {
+  return str[0].toUpperCase() + str.slice(1);
+}
 
 async function fetchFilters(reset = true) {
   if (reset) {
@@ -347,7 +350,4 @@ function showNoResults() {
   }
 }
 
-function capitalize(str) {
-  return str[0].toUpperCase() + str.slice(1);
-}
 

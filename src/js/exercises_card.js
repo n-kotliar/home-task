@@ -1,4 +1,3 @@
-
 import * as localStorageLogic from './localalStorageLogical';
 import { checkStorage } from './favourite_exercises';
 import { handlerOpenRate } from './rate';
@@ -18,6 +17,14 @@ function capitalizeFirstLetter(string) {
   return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
 }
 
+function onEscClose(event) {
+  if (event.key === 'Escape') {
+    cardBackdrop.classList.remove('card-is-open');
+    document.body.classList.remove('not-scrollable');
+    document.removeEventListener('keydown', onEscClose);
+  }
+}
+
 export default function handlerStartBtn(
   exercise,
   isFav = false,
@@ -33,6 +40,8 @@ export default function handlerStartBtn(
   renderModal(exercise);
   cardBackdrop.classList.add('card-is-open');
   document.body.classList.add('not-scrollable');
+
+  document.addEventListener('keydown', onEscClose);
 
   if (isFavourite === true) {
     document.querySelector('.add-favourite-btn').innerHTML = `Remove from
@@ -128,6 +137,7 @@ function renderModal(data, isFavouritePage) {
       </div>
     </div>`;
   cardBackdrop.innerHTML = markup;
+
   const arrStar = document.querySelectorAll('.star-rating-icon');
   for (let i = 0; i < Math.round(data.rating); ++i) {
     arrStar[i].style.fill = '#eea10c';
@@ -158,18 +168,21 @@ function renderModal(data, isFavouritePage) {
   document.getElementById('close-card').addEventListener('click', () => {
     cardBackdrop.classList.remove('card-is-open');
     document.body.classList.remove('not-scrollable');
+    document.removeEventListener('keydown', onEscClose);
   });
 
   cardBackdrop.addEventListener('click', event => {
     if (event.target === cardBackdrop) {
       cardBackdrop.classList.remove('card-is-open');
       document.body.classList.remove('not-scrollable');
+      document.removeEventListener('keydown', onEscClose);
     }
   });
 
   document.querySelector('.give-rating-btn').addEventListener('click', () => {
     cardBackdrop.classList.remove('card-is-open');
     document.body.classList.remove('not-scrollable');
+    document.removeEventListener('keydown', onEscClose);
     handlerOpenRate(data._id);
   });
 }

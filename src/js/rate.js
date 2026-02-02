@@ -1,3 +1,5 @@
+import { Notify } from 'notiflix';
+
 export async function addExerciseRatingById(id, { email, rate, comment }) {
   const url = `https://your-energy.b.goit.study/api/exercises/${id}/rating`;
   rate = Number(rate);
@@ -24,14 +26,15 @@ export async function addExerciseRatingById(id, { email, rate, comment }) {
 
 const formCloseBtn = document.getElementById('form-close-btn');
 const backdrop = document.querySelector('.backdrop');
+const backdropForm = document.querySelector('.backdrop-form');
 const userEmail = document.querySelector('#user-email');
 const userComment = document.getElementById('user-comment');
 const formSendBtn = document.querySelector('.form-send-btn');
 const ratingWrapper = document.querySelector('.rating-wrapper');
 const ratingStarValue = document.querySelector('.rating-star-value');
-const backdropForm = document.querySelector('.backdrop-form');
 
 let exerciseId = null;
+
 const userFeedback = {
   rate: 0,
   email: '',
@@ -39,6 +42,7 @@ const userFeedback = {
 };
 
 formSendBtn.disabled = false;
+
 
 function resetForm() {
   userEmail.value = '';
@@ -49,30 +53,41 @@ function resetForm() {
 
   ratingStarValue.textContent = '0.0';
 
-  const ratingStarIcons = document.querySelectorAll('.rating-star-icons');
-  ratingStarIcons.forEach(icon => {
+  document.querySelectorAll('.rating-star-icons').forEach(icon => {
     icon.style.fill = 'var(--white-20)';
   });
 }
 
-formCloseBtn.addEventListener('click', () => {
+function closeRateModal() {
   backdrop.classList.remove('is-open');
-});
+  document.removeEventListener('keydown', onEscCloseRate);
+  if (typeof window.reopenExerciseModal === 'function') {
+    window.reopenExerciseModal();
+  }
+}
+
+function onEscCloseRate(event) {
+  if (event.key === 'Escape') {
+    closeRateModal();
+  }
+}
+
+formCloseBtn.addEventListener('click', closeRateModal);
 
 backdrop.addEventListener('click', event => {
-  if (event.target === backdrop) backdrop.classList.remove('is-open');
+  if (event.target === backdrop) closeRateModal();
 });
 
 ratingWrapper.addEventListener('click', event => {
-  const ratingStarIcons = document.querySelectorAll('.rating-star-icons');
   if (!event.target.dataset.id) return;
 
+  const ratingStarIcons = document.querySelectorAll('.rating-star-icons');
   userFeedback.rate = Number(event.target.dataset.id);
 
-  for (let i = 0; i < 5; i++) {
-    ratingStarIcons[i].style.fill =
-      i < userFeedback.rate ? 'var(--star-color)' : 'var(--white-20)';
-  }
+  ratingStarIcons.forEach((icon, index) => {
+    icon.style.fill =
+      index < userFeedback.rate ? 'var(--star-color)' : 'var(--white-20)';
+  });
 
   ratingStarValue.textContent = `${userFeedback.rate}.0`;
 });
@@ -80,31 +95,34 @@ ratingWrapper.addEventListener('click', event => {
 export function handlerOpenRate(id) {
   exerciseId = id;
   backdrop.classList.add('is-open');
+  document.addEventListener('keydown', onEscCloseRate);
 }
+
 
 backdropForm.addEventListener('submit', handlerAddRate);
 
 async function handlerAddRate(event) {
   event.preventDefault();
+
   userFeedback.email = userEmail.value.trim();
   userFeedback.comment = userComment.value.trim() || undefined;
 
   if (!userFeedback.rate) {
-    alert('Please select a rating');
+    Notify.failure('Please select a rating');
     return;
   }
 
   if (!userFeedback.email) {
-    alert('Please enter your email');
+    Notify.failure('Please enter your email');
     return;
   }
 
   try {
     await addExerciseRatingById(exerciseId, userFeedback);
-    alert('Your rating is accepted');
+    Notify.success('Your rating has been saved!');
     resetForm();
-    backdrop.classList.remove('is-open');
+    closeRateModal();
   } catch (error) {
-    alert(`Error: ${error.message}`);
+    Notify.failure(error.message || 'Something went wrong');
   }
 }

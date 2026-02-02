@@ -25,7 +25,11 @@ async function fetchQuote() {
   return response.json();
 }
 
+let quotePromise = null;
+
 async function getQuote() {
+  if (quotePromise) return quotePromise;
+
   const storedQuote = localStorage.getItem(QUOTE_KEY);
   const storedTime = localStorage.getItem(QUOTE_TIME_KEY);
 
@@ -37,18 +41,25 @@ async function getQuote() {
     return JSON.parse(storedQuote);
   }
 
-  try {
-    const data = await fetchQuote();
-    localStorage.setItem(QUOTE_KEY, JSON.stringify(data));
-    localStorage.setItem(QUOTE_TIME_KEY, Date.now().toString());
-    return data;
-  } catch (err) {
-    console.error('Error fetching quote:', err);
-    return storedQuote
-      ? JSON.parse(storedQuote)
-      : { quote: 'No quote available', author: '' };
-  }
+  quotePromise = (async () => {
+    try {
+      const data = await fetchQuote();
+      localStorage.setItem(QUOTE_KEY, JSON.stringify(data));
+      localStorage.setItem(QUOTE_TIME_KEY, Date.now().toString());
+      return data;
+    } catch (err) {
+      console.error('Error fetching quote:', err);
+      return storedQuote
+        ? JSON.parse(storedQuote)
+        : { quote: 'No quote available', author: '' };
+    } finally {
+      quotePromise = null;
+    }
+  })();
+
+  return quotePromise;
 }
+
 
 const renderQuoteHTML = (quote, author) => `
   <svg width="32" height="32" class="quote-text-icon">
