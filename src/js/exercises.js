@@ -29,7 +29,7 @@ refs.musclesBtn.classList.add('active-btn');
 
 refs.filters.addEventListener('click', pressFilterBtn);
 refs.exercises.addEventListener('click', loadExercises);
-refs.searchForm.addEventListener('input', onLiveSearch);
+refs.searchForm.addEventListener('submit', onSearch);
 refs.loadMoreBtn?.addEventListener('click', loadMore);
 function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1);
@@ -252,25 +252,14 @@ function onLiveSearch(event) {
   fetchExercises(true);
 }
 
-function onSearch(event) {
-  event.preventDefault();
+function onSearch(e) {
+  e.preventDefault();
 
-  keyWord = event.target.searchQuery.value.trim();
+  const input = refs.searchForm.elements.searchQuery;
+  keyWord = input.value.trim().toLowerCase();
+
   page = 1;
-  filter = '';
-  currentFilter = '';
-  refs.exercises.innerHTML = '';
-  refs.exercisesTitle.textContent = `Search results for "${keyWord}"`;
-  refs.searchForm.style.display = 'block';
-
-  if (!keyWord) {
-    currentFilter = 'Muscles';
-    refs.exercisesTitle.textContent = 'Exercises';
-    refs.searchForm.style.display = 'none';
-    fetchFilters(true);
-  } else {
-    fetchExercises(true);
-  }
+  fetchExercises(true);
 }
 
 function renderPagination(totalPages) {
